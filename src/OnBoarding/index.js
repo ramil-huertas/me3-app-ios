@@ -747,8 +747,8 @@ export default function OnBoarding({ navigation }) {
                     }}>
                     <Image
                         style={{
-                            height: calculateHeight(23),
-                            width: calculateHeight(23),
+                            height: calculateHeight(18),
+                            width: calculateHeight(18),
                         }}
                         source={require('@assets/google_icon.png')}></Image>
                     <Text style={styles.bottomButtonStyle}>
@@ -794,7 +794,7 @@ const styles = StyleSheet.create({
         color: theme.colors.black,
         // fontFamily: theme.fonts.titillium_bold,
         fontSize: theme.sizes.f17,
-        marginLeft: 10,
+        marginLeft: 4,
         textAlign: 'center',
         textAlignVertical: 'center',
     },
