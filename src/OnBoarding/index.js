@@ -82,8 +82,93 @@ import { key2B64Str } from '@constants/EncDecChacha';
 import { pki } from 'node-forge';
 import { setCurrentCurrencyFromAction } from '@redux/Action/CurrencyAction';
 import NoInternet from '@components/NoInternet';
+import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
 
 export default function OnBoarding({ navigation }) {
+    // Apple
+    let user = null;
+    async function fetchAndUpdateCredentialState(updateCredentialStateForUser) {
+        if (user === null) {
+          updateCredentialStateForUser('N/A');
+        } else {
+          const credentialState = await appleAuth.getCredentialStateForUser(user);
+          if (credentialState === appleAuth.State.AUTHORIZED) {
+            updateCredentialStateForUser('AUTHORIZED');
+          } else {
+            updateCredentialStateForUser(credentialState);
+          }
+        }
+      }
+      
+      /**
+       * Starts the Sign In flow.
+       */
+      async function onAppleButtonPress(updateCredentialStateForUser) {
+        console.warn('Beginning Apple Authentication');
+      
+        // start a login request
+        try {
+          const appleAuthRequestResponse = await appleAuth.performRequest({
+            requestedOperation: appleAuth.Operation.LOGIN,
+            requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+          });
+      
+          console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+      
+          const {
+            user: newUser,
+            email,
+            nonce,
+            identityToken,
+            realUserStatus /* etc */,
+          } = appleAuthRequestResponse;
+      
+          user = newUser;
+      
+          fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+            updateCredentialStateForUser(`Error: ${error.code}`),
+          );
+      
+          if (identityToken) {
+            // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
+            console.log(nonce, identityToken);
+          } else {
+            // no token - failed sign-in?
+          }
+      
+          if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
+            console.log("I'm a real person!");
+          }
+      
+          console.warn(`Apple Authentication Completed, ${user}, ${email}`);
+        } catch (error) {
+          if (error.code === appleAuth.Error.CANCELED) {
+            console.warn('User canceled Apple Sign in.');
+          } else {
+            console.error(error);
+          }
+        }
+      }
+
+      useEffect(() => {
+        if (!appleAuth.isSupported) return;
+    
+        fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+          updateCredentialStateForUser(`Error: ${error.code}`),
+        );
+      }, []);
+    
+      useEffect(() => {
+        if (!appleAuth.isSupported) return;
+    
+        return appleAuth.onCredentialRevoked(async () => {
+          console.warn('Credential Revoked');
+          fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+            updateCredentialStateForUser(`Error: ${error.code}`),
+          );
+        });
+      }, []);
+    
     const dispatch = useDispatch();
     const hasInternet = useSelector(state => state.ConfigReducer.hasInternet);
 
@@ -669,6 +754,16 @@ export default function OnBoarding({ navigation }) {
                         {string.SIGN_IN_WITH_GOOGLE}
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.bottomAppleSigninButtonStyle}
+                    >
+                    <AppleButton
+                        style={styles.appleButton}
+                        buttonStyle={AppleButton.Style.WHITE}
+                        buttonType={AppleButton.Type.SIGN_IN}
+                        onPress={() => onAppleButtonPress(updateCredentialStateForUser)}
+                    />
+                </TouchableOpacity>
             </View>
             {!hasInternet && <NoInternet />}
         </View>
@@ -777,4 +872,20 @@ const styles = StyleSheet.create({
     textHyperlinkStyle: {
         textDecorationLine: 'underline',
     },
+
+    bottomAppleSigninButtonStyle: {
+        alignItems: 'center',
+        backgroundColor: theme.colors.white,
+        borderRadius: calculateHeight(10),
+        flexDirection: 'row',
+        height: calculateHeight(56),
+        justifyContent: 'center',
+        marginBottom: calculateHeight(40),
+        marginTop: 9,
+    },
+    appleButton: {
+        width: 200,
+        height: 60,
+        margin: 10,
+      },
 });
