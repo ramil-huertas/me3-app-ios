@@ -87,6 +87,7 @@ import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentica
 export default function OnBoarding({ navigation }) {
     // Apple
     let user = null;
+    const [credentialState, updateCredentialStateForUser] = useState(-1)
     async function fetchAndUpdateCredentialState(updateCredentialStateForUser) {
         if (user === null) {
           updateCredentialStateForUser('N/A');
@@ -104,7 +105,7 @@ export default function OnBoarding({ navigation }) {
        * Starts the Sign In flow.
        */
       async function onAppleButtonPress(updateCredentialStateForUser) {
-        console.warn('Beginning Apple Authentication');
+        console.log('Beginning Apple Authentication');
       
         // start a login request
         try {
@@ -140,12 +141,12 @@ export default function OnBoarding({ navigation }) {
             console.log("I'm a real person!");
           }
       
-          console.warn(`Apple Authentication Completed, ${user}, ${email}`);
+          console.log(`Apple Authentication Completed, ${user}, ${email}`);
         } catch (error) {
           if (error.code === appleAuth.Error.CANCELED) {
-            console.warn('User canceled Apple Sign in.');
+            console.log('User canceled Apple Sign in.');
           } else {
-            console.error(error);
+            console.log(error);
           }
         }
       }
@@ -162,7 +163,7 @@ export default function OnBoarding({ navigation }) {
         if (!appleAuth.isSupported) return;
     
         return appleAuth.onCredentialRevoked(async () => {
-          console.warn('Credential Revoked');
+          console.log('Credential Revoked');
           fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
             updateCredentialStateForUser(`Error: ${error.code}`),
           );
@@ -791,7 +792,7 @@ const styles = StyleSheet.create({
     },
     bottomButtonStyle: {
         color: theme.colors.black,
-        fontFamily: theme.fonts.titillium_bold,
+        // fontFamily: theme.fonts.titillium_bold,
         fontSize: theme.sizes.f17,
         marginLeft: 10,
         textAlign: 'center',
@@ -800,11 +801,10 @@ const styles = StyleSheet.create({
     bottomSigninButtonStyle: {
         alignItems: 'center',
         backgroundColor: theme.colors.white,
-        borderRadius: calculateHeight(10),
+        borderRadius: calculateHeight(8),
         flexDirection: 'row',
-        height: calculateHeight(56),
+        height: calculateHeight(50),
         justifyContent: 'center',
-        marginBottom: calculateHeight(40),
         marginTop: 9,
     },
     bottomViewStyle: {
@@ -876,16 +876,15 @@ const styles = StyleSheet.create({
     bottomAppleSigninButtonStyle: {
         alignItems: 'center',
         backgroundColor: theme.colors.white,
-        borderRadius: calculateHeight(10),
+        borderRadius: calculateHeight(8),
         flexDirection: 'row',
-        height: calculateHeight(56),
+        height: calculateHeight(50),
         justifyContent: 'center',
         marginBottom: calculateHeight(40),
         marginTop: 9,
     },
     appleButton: {
-        width: 200,
-        height: 60,
-        margin: 10,
-      },
+        width: '100%',
+        height: calculateHeight(46),
+      }
 });
