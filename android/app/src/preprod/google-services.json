@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "748406591874",
+    "project_id": "me3-rn-app-preprod",
+    "storage_bucket": "me3-rn-app-preprod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748406591874:android:47d74d1350b04658c5bf9b",
+        "android_client_info": {
+          "package_name": "app.me3.crypto.preprod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748406591874-hqqcnt3q54hd0q75t7frpdgnppah7e92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKJQWwUwyS7E3CbG69PY9Wl8mhtwXLnVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748406591874-hqqcnt3q54hd0q75t7frpdgnppah7e92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

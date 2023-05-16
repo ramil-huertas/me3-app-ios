@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "520480031109",
+    "project_id": "me3-rn-app-dev",
+    "storage_bucket": "me3-rn-app-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520480031109:android:8ce6b8e5d6236c322a44ec",
+        "android_client_info": {
+          "package_name": "app.me3.crypto.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520480031109-85tsceimtp7jlu73qtcce1mcalg2gp88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjj3NsF41J33BijqhxKYsoWW7ix3q2xm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520480031109-85tsceimtp7jlu73qtcce1mcalg2gp88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+
+  ],
+  "configuration_version": "1"
+}

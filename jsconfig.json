@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "baseUrl": "./",
+    "jsx": "react",
+    "paths": {
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@constants/*": [
+        "./constant/*"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@api/*": [
+        "./api/*"
+      ],
+      "@chains/*": [
+        "./chains/*"
+      ],
+      "@database/*": [
+        "./database/*"
+      ],
+      "@firebase/*": [
+        "./Firebase/*"
+      ],
+      "@redux/*": [
+        "./redux/*"
+      ],
+      "@utilities/*": [
+        "./src/utilities/*"
+      ],
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "ios",
+    "android",
+    "fastlane",
+    "patches"
+  ]
+}

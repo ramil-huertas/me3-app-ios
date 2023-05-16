@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">me3.io</domain>
+        <pin-set>
+            <pin digest="SHA-256">m9iLN42C1juYGudXNXpaF2yr28BpNn6KXeB6lSOtQ3c=</pin>
+        </pin-set>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <domain includeSubdomains="true">10.0.1.1</domain>
+        <domain includeSubdomains="true">https://paytest.alchemypay.cc</domain>
+        <domain includeSubdomains="true">bnc://app.binance.com</domain>
+    </domain-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+
+    </base-config>
+</network-security-config>
