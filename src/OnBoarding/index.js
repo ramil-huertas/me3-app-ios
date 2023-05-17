@@ -85,6 +85,7 @@ import NoInternet from '@components/NoInternet';
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
 
 export default function OnBoarding({ navigation }) {
+    const [method, setMethod] = useState(null);
     // Apple
     let user = null;
     const [credentialState, updateCredentialStateForUser] = useState(-1)
@@ -106,6 +107,7 @@ export default function OnBoarding({ navigation }) {
        */
       async function onAppleButtonPress(updateCredentialStateForUser) {
         console.log('Beginning Apple Authentication');
+        setMethod("APPLE");
       
         // start a login request
         try {
@@ -130,11 +132,28 @@ export default function OnBoarding({ navigation }) {
             updateCredentialStateForUser(`Error: ${error.code}`),
           );
       
+          if (user) {
+            saveKeyValueData(
+                storageConst.CURRENT_USER_EMAIL,
+                user,
+            );
+            }
+
           if (identityToken) {
             // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
             console.log(nonce, identityToken);
+            saveKeyValueData(
+                storageConst.ACCESS_TOKEN,
+                identityToken,
+            );
+            setShowIndicatorStatus(true);
+            
+            setTimeout(() => {
+                encryption(user);
+            }, 100);
           } else {
             // no token - failed sign-in?
+            console.log("Apple login failed")
           }
       
           if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
@@ -353,57 +372,62 @@ export default function OnBoarding({ navigation }) {
     }, []);
 
     async function uploadFile(file) {
-        let accessToken = await retrieveKeyValueData(storageConst.ACCESS_TOKEN);
-        gdrive.accessToken = accessToken;
-        let fileName = 'ME3_KEY.json';
-        if (apiConst.APIENV === APIENVTYPE.DEV) {
-            fileName = 'ME3_KEY_DEV.json';
-        } else if (apiConst.APIENV === APIENVTYPE.PREPROD) {
-            fileName = 'ME3_KEY_PRE_PROD.json';
-        } else {
-            fileName = 'ME3_KEY.json';
-        }
-        return new Promise(function (resolve, reject) {
-            gdrive.files
-                .newMultipartUploader()
-                .setData(file, MimeTypes.JSON)
-                .setRequestBody({
-                    name: fileName,
-                })
-                .execute()
-                .then(fileData => {
-                    saveKeyValueData(storageConst.FILE_ID, fileData.id);
-
-                    api_set_fileId(fileData.id)
-                        .then(fileId => {
-                            logger('response :: ', fileId);
-                            setShowIndicatorStatus(false);
-                            const object = {
-                                type: string.BACK_UP,
-                                id: fileData.id,
-                            };
-                            setWalletProcessType(dispatch, object);
-                            navigation.replace('WelcomeToMe3', {
-                                type: 'backup',
-                                id: fileData.id,
+        if (method == "GOOGLE") {
+            let accessToken = await retrieveKeyValueData(storageConst.ACCESS_TOKEN);
+            gdrive.accessToken = accessToken;
+            let fileName = 'ME3_KEY.json';
+            if (apiConst.APIENV === APIENVTYPE.DEV) {
+                fileName = 'ME3_KEY_DEV.json';
+            } else if (apiConst.APIENV === APIENVTYPE.PREPROD) {
+                fileName = 'ME3_KEY_PRE_PROD.json';
+            } else {
+                fileName = 'ME3_KEY.json';
+            }
+            return new Promise(function (resolve, reject) {
+                gdrive.files
+                    .newMultipartUploader()
+                    .setData(file, MimeTypes.JSON)
+                    .setRequestBody({
+                        name: fileName,
+                    })
+                    .execute()
+                    .then(fileData => {
+                        saveKeyValueData(storageConst.FILE_ID, fileData.id);
+    
+                        api_set_fileId(fileData.id)
+                            .then(fileId => {
+                                logger('response :: ', fileId);
+                                setShowIndicatorStatus(false);
+                                const object = {
+                                    type: string.BACK_UP,
+                                    id: fileData.id,
+                                };
+                                setWalletProcessType(dispatch, object);
+                                navigation.replace('WelcomeToMe3', {
+                                    type: 'backup',
+                                    id: fileData.id,
+                                });
+                            })
+                            .catch(error => {
+                                setShowIndicatorStatus(false);
+                                logger('uplaod file error :: ', error);
                             });
-                        })
-                        .catch(error => {
-                            setShowIndicatorStatus(false);
-                            logger('uplaod file error :: ', error);
-                        });
-                    // navigation.replace("Welcome")
-                })
-                .catch(error => {
-                    logout();
-                    setShowIndicatorStatus(false);
-                    showMessageToast(
-                        dispatch,
-                        'File saved failed. Please try again',
-                    );
-                    logger('error', JSON.stringify(error));
-                });
-        });
+                        // navigation.replace("Welcome")
+                    })
+                    .catch(error => {
+                        logout();
+                        setShowIndicatorStatus(false);
+                        showMessageToast(
+                            dispatch,
+                            'File saved failed. Please try again',
+                        );
+                        logger('error', JSON.stringify(error));
+                    });
+            });
+        } else if(method == "APPLE") {
+            // upload key.json file to icloud
+        }
+        
     }
 
     function logout() {
@@ -726,6 +750,7 @@ export default function OnBoarding({ navigation }) {
                 <TouchableOpacity
                     style={styles.bottomSigninButtonStyle}
                     onPress={async () => {
+                        setMethod("GOOGLE");
                         GoogleSignin.hasPlayServices()
                             .then(hasPlayService => {
                                 if (hasPlayService) {
