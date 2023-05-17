@@ -96,6 +96,7 @@
     "react-native-bitcoinjs-lib": "^2.3.9",
     "react-native-camera": "^4.2.1",
     "react-native-cloud-fs": "^2.7.0",
+    "react-native-cloud-store": "^0.10.3-alpha.1",
     "react-native-encrypted-storage": "^4.0.2",
     "react-native-fast-image": "^8.6.3",
     "react-native-fs": "^2.20.0",

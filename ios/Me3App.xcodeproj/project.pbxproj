@@ -30,6 +30,7 @@
 		7699B88040F8A987B510C191 /* libPods-Me3App-Me3AppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Me3App-Me3AppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B08A6C04DC5221671540A862 /* libPods-Me3App.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Me3App.a */; };
+		CE2D49672A14AA3B00E5E7A0 /* icloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2D49662A14AA3B00E5E7A0 /* icloud.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		8628993C3EA94E10BF48FEE6 /* titilliumweb_bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = titilliumweb_bold.ttf; path = ../assets/fonts/titilliumweb_bold.ttf; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Me3App-Me3AppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Me3App-Me3AppTests.release.xcconfig"; path = "Target Support Files/Pods-Me3App-Me3AppTests/Pods-Me3App-Me3AppTests.release.xcconfig"; sourceTree = "<group>"; };
 		CE2D49622A13D93900E5E7A0 /* Me3App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Me3App.entitlements; path = Me3App/Me3App.entitlements; sourceTree = "<group>"; };
+		CE2D49662A14AA3B00E5E7A0 /* icloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = icloud.swift; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -155,6 +157,7 @@
 				72D4072D28F56CE00008A9B2 /* GoogleService-Info.plist */,
 				72E2A1CC294C2D5D009FE6A0 /* client_784158056437-8h3utbj9so1lodi1tuial4rt7op5db3c.apps.googleusercontent.com.plist */,
 				72DAC399295AB64F0071336F /* Me3App-Bridging-Header.h */,
+				CE2D49662A14AA3B00E5E7A0 /* icloud.swift */,
 			);
 			name = Me3App;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				72B8E7A9295D71CE00F366A8 /* SessionManager.swift in Sources */,
 				12B4F6EC2954170000E65FEA /* WalletConnect.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				CE2D49672A14AA3B00E5E7A0 /* icloud.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

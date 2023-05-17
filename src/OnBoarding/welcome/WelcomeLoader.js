@@ -40,6 +40,7 @@ import { getPreviousWallets } from '@api/AxiosInstance';
 import { logger } from '@constants/Log';
 import { checkNullOrEmpty } from '@constants/commonFuncation';
 import { showMessageToast } from '@redux/Action/ToastAlert';
+import { readFile, defaultICloudContainerPath } from 'react-native-cloud-store';
 
 const WelcomeLoader = ({ navigation }) => {
     const [refresh, setRefresh] = useState(false);
@@ -166,9 +167,28 @@ const WelcomeLoader = ({ navigation }) => {
         let type = WalletStatus.WalletProcessType;
         let fileID = WalletStatus.WalletProcessId;
         // setTimeout(() => {
-        getFileFromDrive(fileID, type);
+        if (fileID == 'icloud') {
+            getFileFromICloud(type);
+
+        } else {
+            getFileFromDrive(fileID, type);
+        }
+        
         // }, 1000);
     }, []);
+
+    const getFileFromICloud = async (type) => {
+        console.log("========Read from iCloud======")
+        try {
+            const file = await readFile(defaultICloudContainerPath + "/ME3_KEY.json");
+            console.log(file);
+            getKey(file, type);
+            return file;
+        } catch {
+            console.log("Error while reading from icloud")
+        }        
+        
+    }
 
     const gdrive = new GDrive();
     gdrive.fetchTimeout = 3000;

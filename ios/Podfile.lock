@@ -443,6 +443,8 @@ PODS:
     - React-Core
   - react-native-cloud-fs (2.7.0):
     - React
+  - react-native-cloud-store (0.10.3-alpha.1):
+    - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
   - react-native-get-random-values (1.8.0):
@@ -657,6 +659,7 @@ DEPENDENCIES:
   - react-native-bg-thread (from `../node_modules/react-native-bg-thread`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-cloud-fs (from `../node_modules/react-native-cloud-fs`)
+  - react-native-cloud-store (from `../node_modules/react-native-cloud-store`)
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-image-base64 (from `../node_modules/react-native-image-base64`)
@@ -796,6 +799,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-cloud-fs:
     :path: "../node_modules/react-native-cloud-fs"
+  react-native-cloud-store:
+    :path: "../node_modules/react-native-cloud-store"
   react-native-encrypted-storage:
     :path: "../node_modules/react-native-encrypted-storage"
   react-native-get-random-values:
@@ -946,6 +951,7 @@ SPEC CHECKSUMS:
   react-native-bg-thread: b5daa49e9084baa6de4503b815953bdf4c1d6c4a
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-cloud-fs: 9b0a9b8439d4e1b8c45dead42280460ab85d4b25
+  react-native-cloud-store: 90ba4db68197c680fb66d62464d65ec28161f4bd
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-image-base64: 2ff9ac788639c87a91361ab6652cc95e871b1e54

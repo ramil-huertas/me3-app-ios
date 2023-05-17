@@ -190,7 +190,13 @@ const Home = ({ navigation }) => {
                             api_set_fileId()
                                 .then(fileData => {
                                     let fileId = fileData.data.fileId;
-                                    gdrive.files
+                                    if (fileId == "icloud") {
+                                        saveKeyValueData(
+                                            storageConst.USERID,
+                                            fileData.uId,
+                                        );
+                                    } else {
+                                        gdrive.files
                                         .getJson(fileId)
                                         .then(file => {
                                             saveKeyValueData(
@@ -204,6 +210,8 @@ const Home = ({ navigation }) => {
                                                 error,
                                             );
                                         });
+                                    }
+                                    
                                 })
                                 .catch(error => {
                                     logger(error);

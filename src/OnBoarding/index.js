@@ -83,6 +83,7 @@ import { pki } from 'node-forge';
 import { setCurrentCurrencyFromAction } from '@redux/Action/CurrencyAction';
 import NoInternet from '@components/NoInternet';
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
+import { writeFile, defaultICloudContainerPath, registerGlobalUploadEvent, isICloudAvailable, upload } from 'react-native-cloud-store';
 
 export default function OnBoarding({ navigation }) {
     const [method, setMethod] = useState(null);
@@ -149,6 +150,7 @@ export default function OnBoarding({ navigation }) {
             setShowIndicatorStatus(true);
             
             setTimeout(() => {
+                console.log("Encryption!")
                 encryption(user);
             }, 100);
           } else {
@@ -176,17 +178,16 @@ export default function OnBoarding({ navigation }) {
         fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
           updateCredentialStateForUser(`Error: ${error.code}`),
         );
-      }, []);
-    
-      useEffect(() => {
-        if (!appleAuth.isSupported) return;
-    
-        return appleAuth.onCredentialRevoked(async () => {
-          console.log('Credential Revoked');
-          fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
-            updateCredentialStateForUser(`Error: ${error.code}`),
-          );
-        });
+        const uploadEvent = registerGlobalUploadEvent()
+        return () => {
+            appleAuth.onCredentialRevoked(async () => {
+                console.log('Credential Revoked');
+                fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+                  updateCredentialStateForUser(`Error: ${error.code}`),
+                );
+              });
+          uploadEvent?.remove()
+        }
       }, []);
     
     const dispatch = useDispatch();
@@ -372,17 +373,21 @@ export default function OnBoarding({ navigation }) {
     }, []);
 
     async function uploadFile(file) {
+        console.log(method);
+        let fileName = 'ME3_KEY.json';
+        if (apiConst.APIENV === APIENVTYPE.DEV) {
+            fileName = 'ME3_KEY_DEV.json';
+        } else if (apiConst.APIENV === APIENVTYPE.PREPROD) {
+            fileName = 'ME3_KEY_PRE_PROD.json';
+        } else {
+            fileName = 'ME3_KEY.json';
+        }
+
         if (method == "GOOGLE") {
             let accessToken = await retrieveKeyValueData(storageConst.ACCESS_TOKEN);
             gdrive.accessToken = accessToken;
-            let fileName = 'ME3_KEY.json';
-            if (apiConst.APIENV === APIENVTYPE.DEV) {
-                fileName = 'ME3_KEY_DEV.json';
-            } else if (apiConst.APIENV === APIENVTYPE.PREPROD) {
-                fileName = 'ME3_KEY_PRE_PROD.json';
-            } else {
-                fileName = 'ME3_KEY.json';
-            }
+            console.log("=====Google In======")
+            console.log(accessToken);
             return new Promise(function (resolve, reject) {
                 gdrive.files
                     .newMultipartUploader()
@@ -392,6 +397,8 @@ export default function OnBoarding({ navigation }) {
                     })
                     .execute()
                     .then(fileData => {
+                        console.log("=======File Data========")
+                        console.log(fileData);
                         saveKeyValueData(storageConst.FILE_ID, fileData.id);
     
                         api_set_fileId(fileData.id)
@@ -426,6 +433,92 @@ export default function OnBoarding({ navigation }) {
             });
         } else if(method == "APPLE") {
             // upload key.json file to icloud
+            console.log("======In===========")
+            console.log(isICloudAvailable());
+            if(!isICloudAvailable()) {
+                console.log("Please allow me3 access to iCloud.")
+            }
+            
+            console.log(defaultICloudContainerPath)
+            console.log(file);
+            try {
+                await writeFile(
+                    defaultICloudContainerPath + "/" + fileName,
+                    file, {
+                        override: true,
+                        onProgress: (data) => {
+                            if (data.progress == 100) {
+                                saveKeyValueData(storageConst.FILE_ID, 'icloud');
+                    
+                                api_set_fileId('icloud')
+                                    .then(fileId => {
+                                        logger('response :: ', fileId);
+                                        setShowIndicatorStatus(false);
+                                        const object = {
+                                            type: string.BACK_UP,
+                                            id: 'icloud',
+                                        };
+                                        setWalletProcessType(dispatch, object);
+                                        navigation.replace('WelcomeToMe3', {
+                                            type: 'backup',
+                                            id: 'icloud',
+                                        });
+                                    })
+                                    .catch(error => {
+                                        setShowIndicatorStatus(false);
+                                        logger('upload file error :: ', error);
+                                    });
+
+                            }
+                            
+                        }
+                    }            
+                );
+            } catch (error) {
+                console.log(JSON.stringify(error));
+            }
+            
+            
+            
+            // const sourceUri = {uri: 'https://chidev.me/wp-content/uploads/2023/04/donaldchi.png'};
+            // const destinationPath = "donald.png";
+            // const mimeType = "image/png";
+            // const scope = 'visible';
+            
+            // RNCloudFs.copyToCloud({
+            //   sourcePath: sourceUri, 
+            //   targetPath: destinationPath, 
+            //   mimeType: mimeType, 
+            //   scope: scope
+            // })
+            //   .then((path) => {
+            //     console.log("it worked", path);
+               
+            //     // saveKeyValueData(storageConst.FILE_ID, fileData.id);
+    
+            //     // api_set_fileId(fileData.id)
+            //     //     .then(fileId => {
+            //     //         logger('response :: ', fileId);
+            //     //         setShowIndicatorStatus(false);
+            //     //         const object = {
+            //     //             type: string.BACK_UP,
+            //     //             id: fileData.id,
+            //     //         };
+            //     //         setWalletProcessType(dispatch, object);
+            //     //         navigation.replace('WelcomeToMe3', {
+            //     //             type: 'backup',
+            //     //             id: fileData.id,
+            //     //         });
+            //     //     })
+            //     //     .catch(error => {
+            //     //         setShowIndicatorStatus(false);
+            //     //         logger('uplaod file error :: ', error);
+            //     //     });
+
+            // })
+            //   .catch((err) => {
+            //     console.warn("it failed", err);
+            //   })
         }
         
     }
@@ -486,7 +579,7 @@ export default function OnBoarding({ navigation }) {
     };
 
     const encryption = async email => {
-        logger('encryption start time ::', new Date().toString());
+        console.log('encryption start time ::', new Date().toString());
         let rsaKeyPair1 = pki.rsa.generateKeyPair({
             bits: 1024,
             e: 0x10001,
@@ -496,7 +589,7 @@ export default function OnBoarding({ navigation }) {
         setShowIndicatorStatus(false);
         const privateKeyEncoded = key2B64Str(rsaKeyPair1.privateKey, true);
         const publicKeyEncoded = key2B64Str(rsaKeyPair1.publicKey, false);
-        logger('encryption end time ::', new Date().toString());
+        console.log('encryption end time ::', new Date().toString());
 
         saveKeyValueData(storageConst.CLIENT_PUBLICKEY, publicKeyEncoded);
         saveKeyValueData(storageConst.CLIENT_PRIVATEKEY, privateKeyEncoded);
@@ -504,11 +597,15 @@ export default function OnBoarding({ navigation }) {
         apiKeyExchange(email, publicKeyEncoded)
             .then(exchangedData => {
                 saveKeyValueData(storageConst.SERVER_PUBLICKEY, exchangedData);
+                console.log("Register User!")
                 apiRegisterUser(email)
                     .then(registerData => {
                         const parsedDecryptedData = registerData;
+                        console.log("Register Data");
+                        console.log(registerData);
                         let key = parsedDecryptedData.uid;
                         if (key != undefined) {
+                            console.log("Key", key);
                             let token = parsedDecryptedData.token;
                             saveKeyValueData(storageConst.LIGHT_TOKEN, token);
                             saveKeyValueData(
@@ -531,7 +628,8 @@ export default function OnBoarding({ navigation }) {
                                         salt: salt,
                                         key: dataEnc,
                                     };
-
+                                    console.log("=========Encrypt==========")
+                                    console.log(JSON.stringify(fileObject))
                                     uploadFile(JSON.stringify(fileObject));
                                 })
                                 .catch(error => {
@@ -539,6 +637,8 @@ export default function OnBoarding({ navigation }) {
                                 });
                         } else {
                             let token1 = parsedDecryptedData.token;
+                            console.log("=======API set fileId==========")
+                            console.log(token1);
                             if (token1 != undefined) {
                                 saveKeyValueData(
                                     storageConst.LIGHT_TOKEN,
