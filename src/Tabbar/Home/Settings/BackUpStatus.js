@@ -4,7 +4,8 @@ import { colors } from '@constants/theme';
 import { theme } from '@constants';
 import {
     BACKING_UP_WALLET,
-    BACKING_UP_WALLET_MESSAGE,
+    GOOGLE_BACKING_UP_WALLET_MESSAGE,
+    APPLE_BACKING_UP_WALLET_MESSAGE,
     BACKUP_STATUS,
     COME_BACK_TO_CHECK,
     YOUR_WALLET_BACKEDUP,
@@ -17,9 +18,17 @@ import ScreenTopHeader from '@components/ScreenTopHeader';
 
 export default function BackUpStatus({ navigation }) {
     const [backUped, setBackUped] = useState(false);
+    const [fileId, setFileId] = useState('');
     const [showBackConfirmationPopup, setShowBackConfirmationPopup] =
         useState(false);
     useEffect(() => {
+        retrieveKeyValueData(storageConst.FILE_ID)
+            .then(id => {
+                setFileId(id);
+            })
+            .catch(error => {
+                logger(error);
+            });
         checkKeysBackUpStatus();
         checkBackUpStatus();
     }, []);
@@ -80,7 +89,7 @@ export default function BackUpStatus({ navigation }) {
                     </Text>
                     <Text style={styles.messageText}>
                         {' '}
-                        {BACKING_UP_WALLET_MESSAGE}
+                        {fileId == 'icloud' ? APPLE_BACKING_UP_WALLET_MESSAGE : GOOGLE_BACKING_UP_WALLET_MESSAGE}
                     </Text>
                     {backUped ? null : (
                         <Text style={styles.comebackText}>

@@ -86,7 +86,7 @@ import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentica
 import { writeFile, defaultICloudContainerPath, registerGlobalUploadEvent, isICloudAvailable, upload } from 'react-native-cloud-store';
 
 export default function OnBoarding({ navigation }) {
-    const [method, setMethod] = useState(null);
+    // const [method, setMethod] = useState(null);
     // Apple
     let user = null;
     const [credentialState, updateCredentialStateForUser] = useState(-1)
@@ -108,8 +108,7 @@ export default function OnBoarding({ navigation }) {
        */
       async function onAppleButtonPress(updateCredentialStateForUser) {
         console.log('Beginning Apple Authentication');
-        setMethod("APPLE");
-      
+              
         // start a login request
         try {
           const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -151,7 +150,7 @@ export default function OnBoarding({ navigation }) {
             
             setTimeout(() => {
                 console.log("Encryption!")
-                encryption(user);
+                encryption(user, 'APPLE');
             }, 100);
           } else {
             // no token - failed sign-in?
@@ -372,7 +371,7 @@ export default function OnBoarding({ navigation }) {
         );
     }, []);
 
-    async function uploadFile(file) {
+    async function uploadFile(file, method) {
         console.log(method);
         let fileName = 'ME3_KEY.json';
         if (apiConst.APIENV === APIENVTYPE.DEV) {
@@ -447,8 +446,37 @@ export default function OnBoarding({ navigation }) {
                     file, {
                         override: true,
                         onProgress: (data) => {
-                            if (data.progress == 100) {
-                                saveKeyValueData(storageConst.FILE_ID, 'icloud');
+                            console.log(data.progress);
+                            // if (data.progress == 100) {
+                                
+                                // saveKeyValueData(storageConst.FILE_ID, 'icloud');
+                    
+                                // api_set_fileId('icloud')
+                                //     .then(fileId => {
+                                //         logger('response :: ', fileId);
+                                //         setShowIndicatorStatus(false);
+                                //         const object = {
+                                //             type: string.BACK_UP,
+                                //             id: 'icloud',
+                                //         };
+                                //         setWalletProcessType(dispatch, object);
+                                //         navigation.replace('WelcomeToMe3', {
+                                //             type: 'backup',
+                                //             id: 'icloud',
+                                //         });
+                                //     })
+                                //     .catch(error => {
+                                //         setShowIndicatorStatus(false);
+                                //         logger('upload file error :: ', error);
+                                //     });
+
+                            // }
+                            
+                        }
+                    }            
+                );
+
+                saveKeyValueData(storageConst.FILE_ID, 'icloud');
                     
                                 api_set_fileId('icloud')
                                     .then(fileId => {
@@ -469,11 +497,6 @@ export default function OnBoarding({ navigation }) {
                                         logger('upload file error :: ', error);
                                     });
 
-                            }
-                            
-                        }
-                    }            
-                );
             } catch (error) {
                 console.log(JSON.stringify(error));
             }
@@ -552,7 +575,7 @@ export default function OnBoarding({ navigation }) {
                     setShowIndicatorStatus(true);
                     // uploadFile(idtoken.accessToken)
                     setTimeout(() => {
-                        encryption(userInfo.user.email);
+                        encryption(userInfo.user.email, 'GOOGLE');
                     }, 100);
                 });
             })
@@ -578,7 +601,7 @@ export default function OnBoarding({ navigation }) {
         setShowIndicatorStatus(false);
     };
 
-    const encryption = async email => {
+    const encryption = async (email, method) => {
         console.log('encryption start time ::', new Date().toString());
         let rsaKeyPair1 = pki.rsa.generateKeyPair({
             bits: 1024,
@@ -630,7 +653,7 @@ export default function OnBoarding({ navigation }) {
                                     };
                                     console.log("=========Encrypt==========")
                                     console.log(JSON.stringify(fileObject))
-                                    uploadFile(JSON.stringify(fileObject));
+                                    uploadFile(JSON.stringify(fileObject), method);
                                 })
                                 .catch(error => {
                                     logger('error', error);
@@ -850,7 +873,6 @@ export default function OnBoarding({ navigation }) {
                 <TouchableOpacity
                     style={styles.bottomSigninButtonStyle}
                     onPress={async () => {
-                        setMethod("GOOGLE");
                         GoogleSignin.hasPlayServices()
                             .then(hasPlayService => {
                                 if (hasPlayService) {

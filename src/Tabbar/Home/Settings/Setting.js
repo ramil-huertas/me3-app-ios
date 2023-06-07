@@ -70,8 +70,16 @@ export default function Setting({ navigation }) {
     const [showCurrencyPopup, setShowCurrencyPopup] = useState(false);
     const [currentCurrency, setCurrentCurrency] = useState(null);
     const [testnetStatus, setTestnetStatus] = useState(false);
+    const [fileId, setFileId] = useState('');
     const dispatch = useDispatch();
     useEffect(() => {
+        retrieveKeyValueData(ConstStorage.FILE_ID)
+            .then(id => {
+                setFileId(id);
+            })
+            .catch(error => {
+                logger(error);
+            });
         retrieveKeyValueData(ConstStorage.CURRENT_USER_EMAIL)
             .then(email => {
                 setUserEmail(email);
@@ -143,11 +151,21 @@ export default function Setting({ navigation }) {
             <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
                 <Text style={styles.currentlyLogin}>{CURRENTLY_LOGGED}</Text>
                 <View style={styles.loginView}>
-                    <Image
-                        source={require('@assets/Google.png')}
-                        resizeMode="contain"
-                        style={styles.googleIcon}></Image>
-                    <Text style={styles.txtEmail}>{userEmail}</Text>
+                   {
+                    fileId == 'icloud' ? 
+                        <Image
+                            source={require('@assets/Apple.png')}
+                            resizeMode="contain"
+                            style={styles.googleIcon}></Image>
+                    :
+                        <Image
+                            source={require('@assets/Google.png')}
+                            resizeMode="contain"
+                            style={styles.googleIcon}></Image>
+
+                   } 
+                    
+                    <Text style={styles.txtEmail}>{userEmail.slice(0, 30)}</Text>
                 </View>
 
                 <SettingsItemComponent

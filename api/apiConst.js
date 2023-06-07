@@ -6,13 +6,13 @@ export const APIENVTYPE = {
 
 const endpoints = {
     // BASE_URL: 'https://wallet.me3.io/me3-api', // prod
-    BASE_URL: 'http://192.168.108.220:8601', // prod
+    // BASE_URL: 'http://192.168.108.220:8601', // prod
     APIENV: APIENVTYPE.PROD,
 
     // BASE_URL: 'https://pre-wallet-prod.me3.io/me3-api', //preprod
     // APIENV: APIENVTYPE.PREPROD,
 
-    // BASE_URL: 'https://dev-wallet.me3.io/me3-api', //dev
+    BASE_URL: 'https://dev-wallet.me3.io/me3-api', //dev
     // APIENV: APIENVTYPE.DEV,
 
     GET_ACCESS_TOKEN: '/api/gameInfo/googleCode',

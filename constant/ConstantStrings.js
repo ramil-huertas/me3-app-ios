@@ -187,8 +187,10 @@ module.exports = {
     BACKING_UP_WALLET: 'Backing up your wallet',
     YOUR_WALLET_BACKEDUP: 'Your wallet is backed up',
     COME_BACK_TO_CHECK: 'Come back again to check.',
-    BACKING_UP_WALLET_MESSAGE:
+    GOOGLE_BACKING_UP_WALLET_MESSAGE:
         'Your encrypted key recovery files used to recover your wallet are being stored in your Google Drive.',
+    APPLE_BACKING_UP_WALLET_MESSAGE:
+        'Your encrypted key recovery files used to recover your wallet are being stored in your iCloud.',
     BACKEDUP_WALLET_MESSAGE:
         'Your encrypted key recovery files used to recover your wallet are stored in your Google Drive.',
     PASSCODE_SET_SUCCESSFULLY: 'Passcode successfully set',
