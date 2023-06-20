@@ -28,10 +28,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>app.me3.crypto.dev</string>
+			<string>app.me3.wallet</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.784158056437-8h3utbj9so1lodi1tuial4rt7op5db3c</string>
+				<string>com.googleusercontent.apps.139382158465-a0vdiqj48v82i571kdeem62815v9p48b</string>
 			</array>
 		</dict>
 	</array>

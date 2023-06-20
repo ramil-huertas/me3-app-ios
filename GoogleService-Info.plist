@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>139382158465-a0vdiqj48v82i571kdeem62815v9p48b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.139382158465-a0vdiqj48v82i571kdeem62815v9p48b</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>139382158465-1uj23al80ok51afq098cocstr174r9ve.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAldmK0pWqQ92H3T7pZY97KI8ko1Pd0nLo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>139382158465</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.me3.wallet</string>
+	<key>PROJECT_ID</key>
+	<string>me3-app-eb745</string>
+	<key>STORAGE_BUCKET</key>
+	<string>me3-app-eb745.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:139382158465:ios:e7f5d4a8d75254903f4980</string>
+	<key>DATABASE_URL</key>
+	<string>https://me3-app-eb745-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

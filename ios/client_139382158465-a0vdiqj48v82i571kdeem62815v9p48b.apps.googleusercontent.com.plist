@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>784158056437-8h3utbj9so1lodi1tuial4rt7op5db3c.apps.googleusercontent.com</string>
+	<string>139382158465-a0vdiqj48v82i571kdeem62815v9p48b.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.784158056437-8h3utbj9so1lodi1tuial4rt7op5db3c</string>
+	<string>com.googleusercontent.apps.139382158465-a0vdiqj48v82i571kdeem62815v9p48b</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>app.me3.crypto.dev</string>
+	<string>app.me3.wallet</string>
 </dict>
 </plist>

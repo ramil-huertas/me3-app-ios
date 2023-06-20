@@ -137,7 +137,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "app.me3.crypto"
+        applicationId "app.me3.wallet"
        // applicationId "app.me3.crypto.preprod"
       //  applicationId "app.me3.crypto.prod"
         minSdkVersion rootProject.ext.minSdkVersion

@@ -551,8 +551,10 @@ export default function OnBoarding({ navigation }) {
         GoogleSignin.signOut();
     }
     function googleSignIn() {
+        console.log("====google sign in====")
         GoogleSignin.signIn()
             .then(userInfo => {
+                console.log("======signed in=======");
                 if (userInfo && userInfo.user.email != null) {
                     saveKeyValueData(
                         storageConst.CURRENT_USER_EMAIL,
@@ -585,8 +587,7 @@ export default function OnBoarding({ navigation }) {
                     navigation.navigate('GooglePermissionDenied', {
                         key: () => googleSignIn(),
                     });
-
-                logger(e);
+                console.log("Google signin error");
                 logger('sign in ERROR IS: ' + JSON.stringify(e));
             });
     }
@@ -877,15 +878,16 @@ export default function OnBoarding({ navigation }) {
                             .then(hasPlayService => {
                                 if (hasPlayService) {
                                     GoogleSignin.isSignedIn().then(status => {
-                                        logger('User signedin status ', status);
+                                        console.log('User signedin status ', status);
                                         if (!status) {
                                             googleSignIn();
+                                            // googleSigninSilent();
                                         } else {
                                             googleSigninSilent();
                                         }
                                     });
                                 } else {
-                                    logger('no play service available');
+                                    console.log('no play service available');
                                 }
                             })
                             .catch(e => {

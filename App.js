@@ -36,7 +36,7 @@ export default function App() {
         // Only check for PROD & release build
         if (APIENV === APIENVTYPE.PROD && !__DEV__) {
             VersionCheck.needUpdate({
-                packageName: 'app.me3.crypto',
+                packageName: 'app.me3.wallet',
                 forceUpdate: true,
             }).then(res => {
                 if (res.isNeeded) {
