@@ -9,21 +9,22 @@ import {
     Platform,
     SafeAreaView,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     colors,
     calculateHeight,
     calculateWidth,
     fonts,
 } from '@constants/theme';
-import { saveKeyValueData } from '@constants/Storage';
+import { saveKeyValueData, retrieveKeyValueData } from '@constants/Storage';
 import { theme } from '@constants';
 import CheckBox from '@react-native-community/checkbox';
 import storageConst from '@constants/ConstStorage';
 import {
     IUNDERSTANDTHAT,
     KEEPYOURKEYSSAFE,
-    YOUCANKEEPYOURKEY,
+    YOUCANKEEPYOURKEYINGOOGLEDRIVE,
+    YOUCANKEEPYOURKEYINICLOUD,
     DONOTSHARE,
     CONTINUE,
 } from '@constants/ConstantStrings';
@@ -36,7 +37,17 @@ export default function BackConfirmationPopup({
 }) {
     const dispatch = useDispatch();
     const [isCheck, setIsCheck] = useState(false);
+    const [fileId, setFileId] = useState('');
 
+    useEffect(() => {
+        retrieveKeyValueData(storageConst.FILE_ID)
+            .then(id => {
+                setFileId(id);
+            })
+            .catch(error => {
+                logger(error);
+            });
+    }, []);
     const styles = StyleSheet.create({
         btnOk: {
             alignItems: 'center',
@@ -160,7 +171,8 @@ export default function BackConfirmationPopup({
                     resizeMode="contain"></Image>
                 <View style={styles.txtContain}>
                     <Text style={styles.txtTitle}>{KEEPYOURKEYSSAFE}</Text>
-                    <Text style={styles.txtDesc}>{YOUCANKEEPYOURKEY}</Text>
+                    <Text style={styles.txtDesc}>{
+                    fileId == 'icloud' ? YOUCANKEEPYOURKEYINICLOUD : YOUCANKEEPYOURKEYINGOOGLEDRIVE }</Text>
                     <Text style={styles.txtDesc1}>{DONOTSHARE}</Text>
                 </View>
             </SafeAreaView>

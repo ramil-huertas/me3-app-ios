@@ -93,7 +93,7 @@ export default function MyHoldings({ navigation, chainList, eyeStatus, refreshTo
             refreshTopBalance(0)
         }
     }
-    useEffect(() => {
+    useEffect(() => {        
         if (chainListWithAsset) {
             if (alphabeticallySorted) {
                 const temp = chainListWithAsset;
@@ -135,11 +135,11 @@ export default function MyHoldings({ navigation, chainList, eyeStatus, refreshTo
     async function displayData() {
         const MainNetArray = [
             'AVAX',
-            'BCH',
+            // 'BCH',
             'BSC',
-            'BTC',
+            // 'BTC',
             'ETH',
-            'LTC',
+            // 'LTC',
             'POLYGON',
         ];
         //    const MainNetArray = [1, 137, 43114, 56];

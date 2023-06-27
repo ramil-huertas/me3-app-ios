@@ -46,7 +46,7 @@ const WelcomeLoader = ({ navigation }) => {
     const [refresh, setRefresh] = useState(false);
     const [refresh1, setRefresh1] = useState(false);
     const [refresh2, setRefresh2] = useState(false);
-
+    const [fileId, setFileId] = useState('')
     const [showSuggestionBox, setShowSuggestionBox] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [data, setData] = useState([]);
@@ -61,6 +61,16 @@ const WelcomeLoader = ({ navigation }) => {
     let secretKeysStored = new Animated.Value(0);
     let FlatlistPosition = new Animated.Value(0);
     const WalletStatus = useSelector(state => state.WalletStatusReducers);
+
+    // useEffect(() => {
+    //     retrieveKeyValueData(storageConst.FILE_ID)
+    //         .then(id => {
+    //             setFileId(id);
+    //         })
+    //         .catch(error => {
+    //             logger(error);
+    //         });
+    // }, []);
 
     const checkWalletStatusMessage = () => {
         if (WalletStatus.retrieveStatus)
@@ -120,6 +130,7 @@ const WelcomeLoader = ({ navigation }) => {
     }
 
     useEffect(() => {
+        
         if (
             WalletStatus.WalletProcessType == string.RECOVER &&
             WalletStatus.retrieveStatus
@@ -166,6 +177,16 @@ const WelcomeLoader = ({ navigation }) => {
         onStart();
         let type = WalletStatus.WalletProcessType;
         let fileID = WalletStatus.WalletProcessId;
+        console.log("++++++++++++++FILE ID++++++++++++++")
+        console.log(fileID)
+        retrieveKeyValueData(storageConst.FILE_ID)
+            .then(id => {
+                setFileId(id);
+            })
+            .catch(error => {
+                logger(error);
+            });
+        // setFileId(fileID)
         // setTimeout(() => {
         if (fileID == 'icloud') {
             getFileFromICloud(type);
@@ -1081,12 +1102,12 @@ const WelcomeLoader = ({ navigation }) => {
                             handleTextChangeAnimation();
                         }}
                         style={[styles.subText, { opacity: keepKeysSafe }]}>
-                        {string.SECRET_KEYS_STORED}
+                        {string.SECRET_KEYS_STORED_IN} {fileId == 'icloud' ? string.ICLOUD : string.GOOGLE_DRIVE}
                     </Animated.Text>
 
                     <Animated.Text
                         style={[styles.subText, { opacity: secretKeysStored }]}>
-                        {string.YOU_CAN_KEEP}
+                        {string.YOU_CAN_KEEP_IN} {fileId == 'icloud' ? string.ICLOUD : string.GOOGLE_DRIVE}
                     </Animated.Text>
                 </Animated.View>
             )}

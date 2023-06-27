@@ -152,6 +152,7 @@ export default function SwapSelectToken({
                         <View
                             style={styles.imageContainerStyle}>
                             <View style={styles.iconView}>
+                                
                                 <CustomImage imageUrl={item.item.icon} />
                             </View>
                             <View style={styles.symbolContainerStyle}>

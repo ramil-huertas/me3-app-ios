@@ -78,7 +78,7 @@ module.exports = {
     Logout: 'Log out',
     PrivacyPolicy: 'Privacy Policy',
     TermsConditions: 'Terms & Conditions',
-    CopyRights: 'Ⓒ 2022 Me3',
+    CopyRights: 'Ⓒ 2023 Me3',
     VERSION: 'V1.1.1',
     PLEASE_WAIT: 'Please Wait...',
     YOURWALLERISSUCCESSFULLYBACKEDUP: 'Your wallet is safely backed up',
@@ -89,8 +89,11 @@ module.exports = {
     myNFTs: 'My NFTs',
     YOURKEENCRYPTED:
         'Your encrypted key recovery files used to recover your wallet are stored in your Google Drive.',
-    YOUCANKEEPYOURKEY:
+    YOUCANKEEPYOURKEYINGOOGLEDRIVE:
         'You can keep your key recovery files in a separate location, but to recover your wallet, the files need to be in your Google Drive.',
+    YOUCANKEEPYOURKEYINICLOUD:
+        'You can keep your key recovery files in a separate location, but to recover your wallet, the files need to be in your iCloud.',
+            
     IUNDERSTANDTHAT:
         'I understand that if I lose or compromise my key recovery files, I may lose my funds forever.',
     OK: 'OK',
@@ -226,10 +229,12 @@ module.exports = {
     ALMOST_THERE_GENERATING_WALLET: 'Almost there! Generating your wallet..',
     ALMOST_THERE_RETRIEVING_WALLET: 'Almost there! Retrieving your wallet..',
     KEEP_KEYS_SAFE: 'Keep your keys safe!',
-    SECRET_KEYS_STORED:
-        'Your secret key recovery files are stored in your Google Drive.',
-    YOU_CAN_KEEP:
-        'You can keep them in a separate location, but to recover your wallet, the files need to be in your Google Drive.',
+    SECRET_KEYS_STORED_IN:
+        'Your secret key recovery files are stored in your ',
+    YOU_CAN_KEEP_IN:
+        'You can keep them in a separate location, but to recover your wallet, the files need to be in your ',
+    GOOGLE_DRIVE: 'Google Drive',
+    ICLOUD: 'iCloud',
     WERE_SORRY: "We're sorry, this is taking some time..",
     HANG_TIGHT: 'Hang tight, this is taking some time.',
     SWITCH_NETWORK: 'Switch Network?',

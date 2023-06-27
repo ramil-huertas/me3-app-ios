@@ -5,11 +5,10 @@ export const APIENVTYPE = {
 };
 
 const endpoints = {
-    // BASE_URL: 'https://wallet.me3.io/me3-api', // prod
-    // BASE_URL: 'http://192.168.108.220:8601', // prod
+    BASE_URL: 'https://wallet.me3.io/me3-api', // prod
     APIENV: APIENVTYPE.PROD,
 
-    BASE_URL: 'https://new-dev-backend.me3.io/me3-api/', //new dev
+    // BASE_URL: 'https://new-dev-backend.me3.io/me3-api/', //new dev
     // APIENV: APIENVTYPE.PREPROD,
 
     // BASE_URL: 'https://dev-wallet.me3.io/me3-api', //dev

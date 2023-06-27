@@ -138,16 +138,16 @@ export const holdingListBackgroundColour = chain => {
     switch (mainChainSymbol) {
         case 'avax':
             return colors.avax_gradient;
-        case 'btc':
-            return colors.btc_gradient;
-        case 'bch':
-            return colors.btc_cash_gradient;
+        // case 'btc':
+        //     return colors.btc_gradient;
+        // case 'bch':
+        //     return colors.btc_cash_gradient;
         case 'bsc':
             return colors.bnb_gradient;
         case 'eth':
             return colors.eth_gradient;
-        case 'ltc':
-            return colors.ltc_gradient;
+        // case 'ltc':
+        //     return colors.ltc_gradient;
         case 'polygon':
             return colors.matic_gradient;
         default:
@@ -165,7 +165,8 @@ export async function getWalletsBasedOnSetting(walletList) {
     );
     if (isShowTestnet == 'false') {
         // let chain_ids = [1, 137, 43114, 56];
-        let chainNames = ['AVAX', 'BCH', 'BSC', 'BTC', 'ETH', 'LTC', 'POLYGON'];
+        // let chainNames = ['AVAX', 'BCH', 'BSC', 'BTC', 'ETH', 'LTC', 'POLYGON'];
+        let chainNames = ['AVAX', 'BSC', 'ETH', 'POLYGON'];
         let chains = chainNames
             .map(item => {
                 let chain_detail = walletList.find(chain_item => {
@@ -217,7 +218,8 @@ export async function getDefaultWalletChainNameForSelection() {
 export async function getMainnetChainsOnly() {
     let chainlist = JSON.parse(await retrieveKeyValueData('allChains'));
     // let chain_ids = [1, 137, 43114, 56];
-    let chainNames = ['AVAX', 'BCH', 'BSC', 'BTC', 'ETH', 'LTC', 'POLYGON'];
+    // let chainNames = ['AVAX', 'BCH', 'BSC', 'BTC', 'ETH', 'LTC', 'POLYGON'];
+    let chainNames = ['AVAX', 'BSC', 'ETH', 'POLYGON'];
     return chainNames
         .map(item => {
             let chain_detail = chainlist.find(chain_item => {
@@ -247,7 +249,8 @@ export async function getMainnetChainsOnlyForSwap() {
 
 export async function getFirstWalletFromMainnetChain() {
     // let chain_ids = [1, 137, 43114, 56];
-    let chainNames = "'AVAX', 'BCH', 'BSC', 'BTC', 'ETH', 'LTC', 'POLYGON'";
+    // let chainNames = "'AVAX', 'BCH', 'BSC', 'BTC', 'ETH', 'LTC', 'POLYGON'";
+    let chainNames = ['AVAX', 'BSC', 'ETH', 'POLYGON'];
     return new Promise(function (resolve, reject) {
         getFirstWalletFromMainnetChainsForSwap(chainNames)
             .then(data => {
@@ -282,7 +285,8 @@ export async function filterChains(chainList) {
     if (isShowTestnet == 'true') return chainList;
     else {
         // let chain_ids = [1, 137, 43114, 56];
-        let chainNames = ['AVAX', 'BCH', 'BSC', 'BTC', 'ETH', 'LTC', 'POLYGON'];
+        // let chainNames = ['AVAX', 'BCH', 'BSC', 'BTC', 'ETH', 'LTC', 'POLYGON'];
+        let chainNames = ['AVAX', 'BSC', 'ETH', 'POLYGON'];
         let chains = chainNames
             .map(item => {
                 let chain_detail = chainList.find(chain_item => {

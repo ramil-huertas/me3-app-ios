@@ -132,6 +132,8 @@ export default function OnBoarding({ navigation }) {
             updateCredentialStateForUser(`Error: ${error.code}`),
           );
       
+          saveKeyValueData(storageConst.FILE_ID, 'icloud');
+          
           if (user) {
             saveKeyValueData(
                 storageConst.CURRENT_USER_EMAIL,
